@@ -1,10 +1,10 @@
 package com.example.shopping_app.database
 import androidx.lifecycle.LiveData
 
-class ShoppigListRepository(private  val shoppingListDao: ShoppingListDatabaseDao) {
+class ShoppingListRepository(private  val shoppingListDao: ShoppingListDatabaseDao) {
     val readAllData : LiveData<List<ShoppingListItem>> = shoppingListDao.getAll()
 
-    suspend fun addShoppingListitem(shoppingListItem: ShoppingListItem){
+    suspend fun addShoppingListItem(shoppingListItem: ShoppingListItem){
         shoppingListDao.insert(shoppingListItem)
     }
 

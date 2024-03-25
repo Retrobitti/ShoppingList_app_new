@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ShoppingListViewModelFactory(application)).get(ShoppingListViewModel::class.java)
+        viewModel = ViewModelProvider(this, ShoppingListViewModelFactory(application))[ShoppingListViewModel::class.java]
 
         setContent{
             ShoppingApp()

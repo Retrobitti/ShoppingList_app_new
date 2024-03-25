@@ -11,17 +11,17 @@ import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(application: Application) : AndroidViewModel(application){
     val readAllData: LiveData<List<ShoppingListItem>>
-    private val repository: ShoppigListRepository
+    private val repository: ShoppingListRepository
 
     init{
         val shoppingListDao = ShoppingListDatabase.getInstance(application).shoppingListDao()
-        repository = ShoppigListRepository(shoppingListDao)
+        repository = ShoppingListRepository(shoppingListDao)
         readAllData = repository.readAllData
     }
 
     fun addShoppingListItem(shoppingListItem: ShoppingListItem){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addShoppingListitem(shoppingListItem)
+            repository.addShoppingListItem(shoppingListItem)
         }
     }
 
