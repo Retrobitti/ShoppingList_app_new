@@ -6,11 +6,14 @@ import android.os.Bundle
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shopping_app.components.AddItemDialog
@@ -53,23 +57,32 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
     val shoppingListItems by viewModel.itemsNotInBasket.observeAsState()
     val shoppedItems by viewModel.itemsInBasket.observeAsState()
     Surface(color = MaterialTheme.colorScheme.background) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column() {
             // Title for Shopping List section
             Text(
-                text = "Shopping List",
+                text = "Shopping List", textAlign = TextAlign.Center,
 
                 modifier = Modifier.padding(bottom = 8.dp)
+                    .background(color = MaterialTheme.colorScheme.primary)
+                    .size(1000.dp, 48.dp)
+                    .padding(8.dp)
+
             )
             // Display items not in the basket
             shoppingListItems?.let { items ->
                 items.forEach { item ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(8.dp)
                     ) {
                         Text(text = item.itemName)
+                        Modifier.padding(8.dp)
+
                         Button(onClick = { viewModel.deleteShoppingListItem(item) }) {
                             Text(text = "Delete")
+                            Modifier.padding(8.dp)
+
+
                         }
                         Checkbox(checked = item.isInBasket,
                             onCheckedChange = {isChecked ->
@@ -83,7 +96,10 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
             // Add item button for items not in the basket
             Button(onClick = { isAddItemDialogOpen = true }) {
                 Text("Add Item")
+                Modifier.padding(16.dp)
+
             }
+
 
             // Spacer for additional space between sections
             Spacer(modifier = Modifier.height(16.dp))
@@ -91,8 +107,8 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
             // Title for Shopped Items section
             Text(
                 text = "Shopped Items",
+                modifier = Modifier.padding(8.dp),
 
-                modifier = Modifier.padding(bottom = 8.dp)
             )
             // Display items in the basket
             shoppedItems?.let { items ->
@@ -100,13 +116,14 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(bottom = 8.dp)
+
                     ) {
                         Text(text = item.itemName)
 
                     }
                 }
             }
-            
+
             if (isAddItemDialogOpen) {
                 AddItemDialog(
                     viewModel = viewModel,
