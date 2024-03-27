@@ -19,6 +19,10 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
         readAllData = repository.readAllData
     }
 
+    val itemsInBasket: LiveData<List<ShoppingListItem>> = repository.getAllInBasket
+
+    val itemsNotInBasket: LiveData<List<ShoppingListItem>> = repository.getAllNotInBasket
+
     fun addShoppingListItem(shoppingListItem: ShoppingListItem){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addShoppingListItem(shoppingListItem)

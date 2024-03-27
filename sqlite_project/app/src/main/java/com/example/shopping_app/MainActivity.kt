@@ -7,8 +7,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,18 +50,63 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ShoppingListApp(viewModel: ShoppingListViewModel) {
     var isAddItemDialogOpen by remember { mutableStateOf(false) }
-    val shoppingListItems by viewModel.readAllData.observeAsState()
+    val shoppingListItems by viewModel.itemsNotInBasket.observeAsState()
+    val shoppedItems by viewModel.itemsInBasket.observeAsState()
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.padding(16.dp)) {
+            // Title for Shopping List section
+            Text(
+                text = "Shopping List",
+
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            // Display items not in the basket
             shoppingListItems?.let { items ->
                 items.forEach { item ->
-                    Text(text = item.itemName)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
+                        Text(text = item.itemName)
+                        Button(onClick = { viewModel.deleteShoppingListItem(item) }) {
+                            Text(text = "Delete")
+                        }
+                        Checkbox(checked = item.isInBasket,
+                            onCheckedChange = {isChecked ->
+                                val updatedItem = item.copy(isInBasket = isChecked)
+                                viewModel.updateShoppingListItem(updatedItem)
+                            }
+                        )
+                    }
                 }
             }
+            // Add item button for items not in the basket
             Button(onClick = { isAddItemDialogOpen = true }) {
                 Text("Add Item")
             }
 
+            // Spacer for additional space between sections
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Title for Shopped Items section
+            Text(
+                text = "Shopped Items",
+
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            // Display items in the basket
+            shoppedItems?.let { items ->
+                items.forEach { item ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    ) {
+                        Text(text = item.itemName)
+
+                    }
+                }
+            }
+            
             if (isAddItemDialogOpen) {
                 AddItemDialog(
                     viewModel = viewModel,

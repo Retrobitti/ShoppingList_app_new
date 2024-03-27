@@ -12,6 +12,6 @@ data class ShoppingListItem(
     @ColumnInfo(name = "item_name")
     val itemName: String,
 
-    @ColumnInfo(name = "added to basket")
+    @ColumnInfo(name = "added_to_basket")
     var isInBasket: Boolean = false
 )

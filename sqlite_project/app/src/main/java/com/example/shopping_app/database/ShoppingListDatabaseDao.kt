@@ -15,6 +15,11 @@ interface ShoppingListDatabaseDao {
     @Query("SELECT * from shopping_list where ItemId = :id")
     fun getById(id: Int) : ShoppingListItem?
 
+    @Query("SELECT * from shopping_list where `added_to_basket` = 0")
+    fun getItemsNotInBasket():LiveData<List<ShoppingListItem>>
+
+    @Query("SELECT * from shopping_list where `added_to_basket` = 1")
+    fun getItemsInBasket():LiveData<List<ShoppingListItem>>
     @Insert
     suspend fun insert(item: ShoppingListItem)
 
