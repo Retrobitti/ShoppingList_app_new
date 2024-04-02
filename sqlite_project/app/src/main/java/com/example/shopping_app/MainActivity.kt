@@ -71,7 +71,6 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel){
 fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListViewModel,  onNavigateToShoppedItems: () -> Unit) {
     var isAddItemDialogOpen by remember { mutableStateOf(false) }
     val shoppingListItems by viewModel.itemsNotInBasket.observeAsState()
-    val shoppedItems by viewModel.itemsInBasket.observeAsState()
     Surface(color = MaterialTheme.colorScheme.background) {
         Column() {
             Text(
@@ -116,6 +115,9 @@ fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListVi
             Button(onClick = onNavigateToShoppedItems) {
                 Text("View Shopped Items")
             }
+            Button(onClick = { viewModel.deleteList() }) {
+                Text(text = "Empty shopping list")
+            }
             if (isAddItemDialogOpen) {
                 AddItemDialog(
                     viewModel = viewModel,
@@ -156,6 +158,9 @@ fun ItemsInBasket(navController: NavHostController, viewModel: ShoppingListViewM
             }
             Button(onClick = onNavigateBack) {
                 Text(text = "View shopping list")
+            }
+            Button(onClick = { viewModel.deleteShoppedItems() }) {
+                Text(text = "Delete shopping history")
             }
         }
     }
