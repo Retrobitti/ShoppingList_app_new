@@ -31,6 +31,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.shopping_app.components.AddItemDialog
 import com.example.shopping_app.database.ShoppingListItem
 import com.example.shopping_app.database.ShoppingListViewModel
@@ -41,8 +46,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Initialize ViewModel
         viewModel = ShoppingListViewModelFactory(application).create(ShoppingListViewModel::class.java)
 
         setContent {
@@ -50,25 +53,37 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 @Composable
-fun ShoppingListApp(viewModel: ShoppingListViewModel) {
+fun ShoppingListApp(viewModel: ShoppingListViewModel){
+    Surface(color = MaterialTheme.colorScheme.background) {
+        val navController = rememberNavController()
+        val currentScreen = remember { mutableStateOf("itemsNotInBasket") }
+
+        when(currentScreen.value){
+            "itemsNotInBasket" -> ItemsNotInBasket(navController= navController, viewModel = viewModel, onNavigateToShoppedItems = { currentScreen.value = "itemsInBasket" })
+            "itemsInBasket" -> ItemsInBasket(navController = navController, viewModel = viewModel, onNavigateBack = { currentScreen.value = "itemsNotInBasket" })
+        }
+    }
+
+
+}
+@Composable
+fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListViewModel,  onNavigateToShoppedItems: () -> Unit) {
     var isAddItemDialogOpen by remember { mutableStateOf(false) }
     val shoppingListItems by viewModel.itemsNotInBasket.observeAsState()
     val shoppedItems by viewModel.itemsInBasket.observeAsState()
     Surface(color = MaterialTheme.colorScheme.background) {
         Column() {
-            // Title for Shopping List section
             Text(
                 text = "Shopping List", textAlign = TextAlign.Center,
 
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
                     .background(color = MaterialTheme.colorScheme.primary)
                     .size(1000.dp, 48.dp)
                     .padding(8.dp)
 
             )
-            // Display items not in the basket
             shoppingListItems?.let { items ->
                 items.forEach { item ->
                     Row(
@@ -93,37 +108,14 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
                     }
                 }
             }
-            // Add item button for items not in the basket
             Button(onClick = { isAddItemDialogOpen = true }) {
                 Text("Add Item")
                 Modifier.padding(16.dp)
 
             }
-
-
-            // Spacer for additional space between sections
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Title for Shopped Items section
-            Text(
-                text = "Shopped Items",
-                modifier = Modifier.padding(8.dp),
-
-            )
-            // Display items in the basket
-            shoppedItems?.let { items ->
-                items.forEach { item ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 8.dp)
-
-                    ) {
-                        Text(text = item.itemName)
-
-                    }
-                }
+            Button(onClick = onNavigateToShoppedItems) {
+                Text("View Shopped Items")
             }
-
             if (isAddItemDialogOpen) {
                 AddItemDialog(
                     viewModel = viewModel,
@@ -135,3 +127,36 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
 }
 
 
+@Composable
+fun ItemsInBasket(navController: NavHostController, viewModel: ShoppingListViewModel, onNavigateBack: () -> Unit) {
+    var isAddItemDialogOpen by remember { mutableStateOf(false) }
+    val shoppedItems by viewModel.itemsInBasket.observeAsState()
+    Surface(color = MaterialTheme.colorScheme.background) {
+        Column() {
+            Text(
+                text = "Shopping List", textAlign = TextAlign.Center,
+
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .background(color = MaterialTheme.colorScheme.primary)
+                    .size(1000.dp, 48.dp)
+                    .padding(8.dp)
+
+            )
+            shoppedItems?.let { items ->
+                items.forEach { item ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(text = item.itemName)
+                        Modifier.padding(8.dp)
+                    }
+                }
+            }
+            Button(onClick = onNavigateBack) {
+                Text(text = "View shopping list")
+            }
+        }
+    }
+}
