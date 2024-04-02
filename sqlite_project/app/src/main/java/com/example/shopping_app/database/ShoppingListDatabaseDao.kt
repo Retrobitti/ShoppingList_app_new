@@ -31,4 +31,10 @@ interface ShoppingListDatabaseDao {
 
     @Query("DELETE FROM shopping_list")
     suspend fun deleteAllItems()
+
+    @Query("DELETE FROM shopping_list WHERE added_to_basket IS 1")
+    suspend fun deleteShoppedItems()
+
+    @Query("DELETE FROM shopping_list WHERE added_to_basket IS 0")
+    suspend fun deleteList()
 }
