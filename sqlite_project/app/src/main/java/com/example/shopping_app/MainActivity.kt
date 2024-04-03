@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.shopping_app.components.AddItemDialog
@@ -56,16 +61,21 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
     var isAddItemDialogOpen by remember { mutableStateOf(false) }
     val shoppingListItems by viewModel.itemsNotInBasket.observeAsState()
     val shoppedItems by viewModel.itemsInBasket.observeAsState()
+
     Surface(color = MaterialTheme.colorScheme.background) {
         Column() {
             // Title for Shopping List section
             Text(
                 text = "Shopping List", textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
 
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier
                     .background(color = MaterialTheme.colorScheme.primary)
                     .size(1000.dp, 48.dp)
-                    .padding(8.dp)
+                    .padding(16.dp)
 
             )
             // Display items not in the basket
@@ -75,7 +85,7 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(8.dp)
                     ) {
-                        Text(text = item.itemName)
+                        Text(text = item.itemName, )
                         Modifier.padding(8.dp)
 
                         Button(onClick = { viewModel.deleteShoppingListItem(item) }) {
@@ -106,8 +116,8 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
 
             // Title for Shopped Items section
             Text(
-                text = "Shopped Items",
-                modifier = Modifier.padding(8.dp),
+                text = "Shopped Items", textAlign = TextAlign.Center,
+                modifier = Modifier.padding(8.dp)
 
             )
             // Display items in the basket
@@ -115,10 +125,10 @@ fun ShoppingListApp(viewModel: ShoppingListViewModel) {
                 items.forEach { item ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(8.dp),
 
                     ) {
-                        Text(text = item.itemName)
+                        Text(text = item.itemName, textAlign = TextAlign.Right)
 
                     }
                 }
