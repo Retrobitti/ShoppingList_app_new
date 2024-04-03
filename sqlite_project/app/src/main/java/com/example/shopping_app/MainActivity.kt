@@ -99,15 +99,12 @@ fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListVi
                 items.forEach { item ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(start = 90.dp)
                     ) {
                         Text(text = item.itemName, )
-                        Modifier.padding(8.dp)
-
-                        Button(onClick = { viewModel.deleteShoppingListItem(item) }) {
+                        Button(onClick = { viewModel.deleteShoppingListItem(item) },
+                            Modifier.padding(start = 8.dp)) {
                             Text(text = "Delete")
-                            Modifier.padding(8.dp)
-
 
                         }
                         Checkbox(checked = item.isInBasket,
@@ -119,15 +116,22 @@ fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListVi
                     }
                 }
             }
-            Button(onClick = { isAddItemDialogOpen = true }) {
+
+            Button(onClick = { isAddItemDialogOpen = true },
+                Modifier.padding(start = 125.dp)
+
+                ){
                 Text("Add Item")
-                Modifier.padding(16.dp)
+            }
+            Button(onClick = onNavigateToShoppedItems,
+                Modifier.padding(start = 90.dp)
+            ){
+                Text("View Shopped Items")
 
             }
-            Button(onClick = onNavigateToShoppedItems) {
-                Text("View Shopped Items")
-            }
-            Button(onClick = { viewModel.deleteList() }) {
+            Button(onClick = { viewModel.deleteList() },
+                Modifier.padding(start = 92.5.dp)
+            ) {
                 Text(text = "Empty shopping list")
             }
             if (isAddItemDialogOpen) {
@@ -148,15 +152,16 @@ fun ItemsInBasket(navController: NavHostController, viewModel: ShoppingListViewM
     Surface(color = MaterialTheme.colorScheme.background) {
         Column() {
             Text(
-                text = "Shopped Items", textAlign = TextAlign.Center,
-                modifier = Modifier.padding(8.dp)
                 text = "Shopping List", textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
 
                 modifier = Modifier
-                    .padding(bottom = 8.dp)
                     .background(color = MaterialTheme.colorScheme.primary)
                     .size(1000.dp, 48.dp)
-                    .padding(8.dp)
+                    .padding(16.dp)
 
             )
             shoppedItems?.let { items ->
@@ -166,21 +171,21 @@ fun ItemsInBasket(navController: NavHostController, viewModel: ShoppingListViewM
                         modifier = Modifier.padding(8.dp),
 
                     ) {
-                        Text(text = item.itemName, textAlign = TextAlign.Right)
-
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Text(text = item.itemName)
-                        Modifier.padding(8.dp)
-                    }
+                        Text(text = item.itemName, textAlign = TextAlign.Right,
+                            modifier = Modifier.padding(start = 16.dp))
                 }
             }
-            Button(onClick = onNavigateBack) {
+            Button(onClick = onNavigateBack,
+                Modifier.padding(start = 95.dp)
+            ) {
                 Text(text = "View shopping list")
             }
-            Button(onClick = { viewModel.deleteShoppedItems() }) {
+            Button(onClick = { viewModel.deleteShoppedItems() },
+                Modifier.padding(start = 80.dp)
+            ) {
                 Text(text = "Delete shopping history")
             }
         }
+    }
     }
 }
