@@ -23,4 +23,12 @@ class ShoppingListRepository(private  val shoppingListDao: ShoppingListDatabaseD
     suspend fun deleteAllShoppingListItems(){
         shoppingListDao.deleteAllItems()
     }
+
+    suspend fun deleteShoppedItems(){
+        shoppingListDao.deleteShoppedItems()
+    }
+
+    suspend fun deleteList(){
+        shoppingListDao.deleteList()
+    }
 }

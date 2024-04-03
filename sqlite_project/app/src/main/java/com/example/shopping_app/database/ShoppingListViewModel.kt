@@ -46,6 +46,18 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
             repository.deleteAllShoppingListItems()
         }
     }
+
+    fun deleteShoppedItems(){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteShoppedItems()
+        }
+    }
+
+    fun deleteList(){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteList()
+        }
+    }
 }
 
 class ShoppingListViewModelFactory(
