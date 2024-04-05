@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
+
+
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -187,50 +189,54 @@ fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListVi
                     }
                 }
             }
+            Spacer(modifier = Modifier.weight(1f))
 
-            Row (
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(start = 80.dp, end = 80.dp)
-                    .background(
-                        color = Color(0xFF219C90),
-            )){
-                Button(onClick = { isAddItemDialogOpen = true },
+                Row (
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
-                        .size(width = 40.dp, height = 40.dp)
-                        .padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
-                        .background(color = Color(0xFFEE9322), shape = CircleShape),
-                    contentPadding = PaddingValues(0.dp)
-                   ){
-                    Icon(Icons.Default.Add,contentDescription = "Add Item",
-                        modifier = Modifier.background(color = Color(0xFFEE9322)))
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Button(onClick = onNavigateToShoppedItems,
-                    modifier = Modifier
-                        .size(width = 40.dp, height = 40.dp)
-                        .padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
-                        .background(color = Color(0xFFEE9322), shape = CircleShape),
-                    contentPadding = PaddingValues(0.dp)
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(start = 80.dp, end = 80.dp, bottom = 20.dp)
+                        .background(
+                            color = Color(0xFF219C90),
+                        )){
+                    Button(onClick = { isAddItemDialogOpen = true },
+                        modifier = Modifier
+                            .size(width = 40.dp, height = 40.dp)
+                            .padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
+                            .background(color = Color(0xFFEE9322), shape = CircleShape),
+                        contentPadding = PaddingValues(0.dp)
                     ){
-                    Icon(Icons.Default.ShoppingCart,contentDescription = "Add Item",
-                        modifier = Modifier.background(color = Color(0xFFEE9322)))
+                        Icon(Icons.Default.Add,contentDescription = "Add Item",
+                            modifier = Modifier.background(color = Color(0xFFEE9322)))
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(onClick = onNavigateToShoppedItems,
+                        modifier = Modifier
+                            .size(width = 40.dp, height = 40.dp)
+                            .padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
+                            .background(color = Color(0xFFEE9322), shape = CircleShape),
+                        contentPadding = PaddingValues(0.dp)
+                    ){
+                        Icon(Icons.Default.ShoppingCart,contentDescription = "Add Item",
+                            modifier = Modifier.background(color = Color(0xFFEE9322)))
 
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Button(onClick = { viewModel.deleteList() },
-                    modifier = Modifier
-                        .size(width = 40.dp, height = 40.dp)
-                        .padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
-                        .background(color = Color(0xFFEE9322), shape = CircleShape),
-                    contentPadding = PaddingValues(0.dp)
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(onClick = { viewModel.deleteList() },
+                        modifier = Modifier
+                            .size(width = 40.dp, height = 40.dp)
+                            .padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 8.dp)
+                            .background(color = Color(0xFFEE9322), shape = CircleShape),
+                        contentPadding = PaddingValues(0.dp)
                     ) {
-                    Icon(Icons.Default.Done,contentDescription = "Add Item",
-                        modifier = Modifier.background(color = Color(0xFFEE9322)))
+                        Icon(Icons.Default.Done,contentDescription = "Add Item",
+                            modifier = Modifier.background(color = Color(0xFFEE9322)))
+                    }
                 }
             }
+
 
             if (isAddItemDialogOpen) {
                 AddItemDialog(
@@ -240,7 +246,7 @@ fun ItemsNotInBasket(navController: NavHostController, viewModel: ShoppingListVi
             }
         }
     }
-}
+
 
 
 @Composable
@@ -291,12 +297,13 @@ fun ItemsInBasket(navController: NavHostController, viewModel: ShoppingListViewM
                             fontWeight = FontWeight.Bold,)
                 }
             }
+                Spacer(modifier = Modifier.weight(1f))
                 Row (
                     verticalAlignment = Alignment.Bottom,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(100.dp)
-                        .padding(start = 80.dp, end = 80.dp)
+                        .padding(start = 80.dp, end = 80.dp, bottom = 20.dp)
                         .background(
                             color = Color(0xFF219C90),
                         )){
